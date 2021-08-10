@@ -22,4 +22,4 @@ napa/scripts/.snakemake/
 nosc_clair/scripts/.refseeking.sh.swp
 
 #Ignore hidden nosc files
-#nosc_clair/scripts/.*
+nosc_clair/scripts/.snakemake/
