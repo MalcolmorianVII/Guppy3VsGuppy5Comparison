@@ -17,3 +17,9 @@ reference_genomes/
 **/.snakemake
 #Ignore napa snakemake metadata
 napa/scripts/.snakemake/
+
+#Ignore nosc
+nosc_clair/scripts/.refseeking.sh.swp
+
+#Ignore hidden nosc files
+#nosc_clair/scripts/.*
