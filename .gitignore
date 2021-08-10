@@ -13,3 +13,7 @@ reference_genomes/
 #Ignore snakemake logs
 *snakemake.log
 
+#Ignore snakemake metadata
+**/.snakemake
+#Ignore napa snakemake metadata
+napa/scripts/.snakemake/
