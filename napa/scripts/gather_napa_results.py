@@ -24,8 +24,8 @@ def aggregator(input_dir, output_dir,guppy_version):
             #dirs = glob.glob(f/*polish{Flye,Medaka}/*report')
             #print(dirs)
             for report in reports:
-                metrics = reader(reports[report])
-                writer.writerow([specie, 'guppy_' + guppy_version, key, metrics[0], metrics[1], metrics[2]])
+                subs,indels,qscore = reader(reports[report])
+                writer.writerow([specie, 'guppy_' + guppy_version, key, subs, indels, qscore])
 #            with open(dirs[0], 'r') as f:
 #                lines = f.readlines()
 #                sub = lines[0].split(':')[1].strip()
