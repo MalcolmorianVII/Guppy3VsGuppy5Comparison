@@ -1,6 +1,6 @@
 configfile:"/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/scripts/multi_speciesConfig.yaml"
-samples = ['1_Acinetobacter_baumannii_J9','2_Citrobacter_koseri_MINF_9D','3_Enterobacter_kobei_MSB1_1B','4_Haemophilus_unknown_M1C132_1','5_Klebsiella_oxytoca_MSB1_2C','6_CHF10J','7_Klebsiella_variicola_INF345','8_Serratia_marcescens_17-147-1671']
-results = ['/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/results/2021.08.02/guppy3']
+samples = ['1_Acinetobacter_baumannii_J9','2_Citrobacter_koseri_MINF_9D','3_Enterobacter_kobei_MSB1_1B','4_Haemophilus_unknown_M1C132_1','5_Klebsiella_oxytoca_MSB1_2C','6_CHF10J1.guppy5.sup','7_Klebsiella_variicola_INF345','8_Serratia_marcescens_17-147-1671']
+results = ['/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/results/2021.08.23/guppy5']
 root_dir = config['torun']
 model = config['model']
 def reads(wildcards):
@@ -23,8 +23,10 @@ rule flye:
 		nano=reads
 	output:
 		directory('{results}/{sample}/{sample}Flye')
+	conda:
+		'/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/scripts/envs/flye.yml'
 	shell:
-		'flye --nano-raw {input.nano} -g 5m -o {output} -t 8 --plasmids'
+		'flye --nano-hq {input.nano} -g 5m -o {output} -t 8 --plasmids'
 
 rule polishFlye:
 	input:
