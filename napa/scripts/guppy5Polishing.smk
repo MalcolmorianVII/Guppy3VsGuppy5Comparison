@@ -23,10 +23,10 @@ rule flye:
 		nano=reads
 	output:
 		directory('{results}/{sample}/{sample}Flye')
-	conda:
-		'/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/scripts/envs/flye.yml'
+#	conda:
+#		'/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/scripts/envs/flye.yml'
 	shell:
-		'flye --nano-hq {input.nano} -g 5m -o {output} -t 8 --plasmids'
+		'bash flye.sh {output} {input.nano}'
 
 rule polishFlye:
 	input:
