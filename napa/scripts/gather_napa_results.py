@@ -12,28 +12,18 @@ import click
 def aggregator(input_dir, output_dir,guppy_version):
     species = os.listdir(input_dir)
     abs_path = os.path.abspath(input_dir) + '/'
-    #       print(abs_path)
     with open(output_dir, 'w') as out:
         writer = csv.writer(out, delimiter='\t')
         writer.writerow(['Species', 'GuppyVersion','Tool', 'Substitution_Errors', 'Indels', 'Consensus_Quality'])
         for specie in species:
-            #base = f'{abs_path + specie}'
             tools = ['Flye', 'Medaka']
             base = '/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/results/2021.08.02/guppy3/1_Acinetobacter_baumannii_J9'
             reports = {i:glob.glob(f'{abs_path + specie}/*polish{tool}/*report')[0] for tool in tools}
-            #dirs = glob.glob(f/*polish{Flye,Medaka}/*report')
-            #print(dirs)
             for report in reports:
                 subs,indels,qscore = reader(reports[report])
                 writer.writerow([specie, 'guppy_' + guppy_version, key, subs, indels, qscore])
-#            with open(dirs[0], 'r') as f:
-#                lines = f.readlines()
-#                sub = lines[0].split(':')[1].strip()
-#                indels = lines[1].split(':')[1].strip()
-#                qscore = lines[3].split(':')[1].strip()
-#                writer.writerow([specie,'guppy_' + guppy_version, 'Medaka', sub, indels, qscore])
 
-#aggregator()
+
 
 def reader(file):
     with open(file, 'r') as f:
