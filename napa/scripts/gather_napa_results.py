@@ -18,10 +18,10 @@ def aggregator(input_dir, output_dir,guppy_version):
         for specie in species:
             tools = ['Flye', 'Medaka']
             base = '/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/results/2021.08.02/guppy3/1_Acinetobacter_baumannii_J9'
-            reports = {i:glob.glob(f'{abs_path + specie}/*polish{tool}/*report')[0] for tool in tools}
+            reports = {tool:glob.glob(f'{abs_path + specie}/*polish{tool}/*report')[0] for tool in tools}
             for report in reports:
                 subs,indels,qscore = reader(reports[report])
-                writer.writerow([specie, 'guppy_' + guppy_version, key, subs, indels, qscore])
+                writer.writerow([specie, 'guppy_' + guppy_version, report, subs, indels, qscore])
 
 
 
