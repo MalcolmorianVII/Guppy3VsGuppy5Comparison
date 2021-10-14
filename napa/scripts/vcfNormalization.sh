@@ -16,7 +16,7 @@ g5='/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/results/2021.08.02/gu
 # mkdir -p ${vcfIntersects}
 # printf "g3uniq\tg5uniq\tg3g5intersect\n" > ${vcfIntersects}/vcfCompas.txt
 
-tab_bgzipping () {
+tab_bgzipp () {
   # $1 ${vcf_file}
    echo "------- STARTED BGZIPPING & TABINDEXING ${1} ----------"
    bgzip  $1 && tabix ${1}.gz
@@ -36,13 +36,13 @@ indel_vcf_check () {
     then
       rm "${1}.gz.tbi"
     fi
-    tab_bgzipping ${1}
+    tab_bgzipp ${1}
   fi
 
 }
 
 
-file_existence_checker () {
+check_file_existence () {
   # If dir already exist --> previous abortive run ---> re-run TODO:Handle non-rm
   # $1 : assumed files
 
@@ -53,7 +53,7 @@ file_existence_checker () {
   fi
 }
 
-indels_normalizer () {
+normalize_indels () {
   # $1 for g3 or g5 dir
   # $2 for guppy version
   # ${3} for species_dir
@@ -65,34 +65,34 @@ indels_normalizer () {
 
   # indel_vcf=$1/${3}/${3}polishMedaka/consensus.fasta.vcf.gz
   normalized=$1/${3}/${3}_indel_norm.vcf.gz
-  file_existence_checker ${normalized}
+  check_file_existence ${normalized}
 
   bcftools norm -f $1/${3}/${3}medaka/consensus.fasta  ${vcf_file}.gz -Oz -o ${normalized} && tabix ${normalized}
   echo "---- Malcolm issue CODE X0: Normalizing indels for ${guppy_version} data successful ----"
 }
 
 
-data_traversal () {
+traverse_data () {
   # $1 for g3 or g5 dir
   guppy_version=$( basename $1 )
   for species_dir in ${species[@]}
 
   do
-    indels_normalizer $1 ${guppy_version} ${species_dir}
+    normalize_indels $1 ${guppy_version} ${species_dir}
     #bcf_isecalization "${species_dir}" 
   done
 
 }
 
 
-#data_traversal ${g5} 
-data_traversal ${g3}
+#traverse_data ${g5} 
+traverse_data ${g3}
 #Isecalization
 
 # bcf_isecalization () {
 #   # $1 guppy version --- globally defined???
 #   # Split fxn i.e nested calling with dir traversal logic
-#   file_existence_checker "${vcfIntersects}"
+#   check_file_existence "${vcfIntersects}"
 
 #   echo "----starting bcftools isec for ${1}"
 #     #vars {species_dir,normalized} globally defined????
