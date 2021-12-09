@@ -1,0 +1,40 @@
+Acinetobacter_baumannii:
+  g5:
+   guppy_5/barcode01_Acinetobacter_baumannii_J9.fastq.gz
+  g3:
+    guppy_3/barcode01_Acinetobacter_baumannii_J9.fastq.gz
+Citrobacter_koseri:
+  g5:
+   guppy_5/barcode02_Citrobacter_koseri_MINF_9D.fastq.gz
+  g3:
+    guppy_3/barcode02_Citrobacter_koseri_MINF_9D.fastq.gz
+Enterobacter_kobei:
+  g5:
+   guppy_5/barcode03_Enterobacter_kobei_MSB1_1B.fastq.gz
+  g3:
+    guppy_3/barcode03_Enterobacter_kobei_MSB1_1B.fastq.gz
+Haemophilus_sp:
+  g5:
+   guppy_5/barcode04_Haemophilus_unknown_M1C132_1.fastq.gz
+  g3:
+    guppy_3/barcode04_Haemophilus_unknown_M1C132_1.fastq.gz
+Klebsiella_oxytoca:
+  g5:
+   guppy_5/barcode05_Klebsiella_oxytoca_MSB1_2C.fastq.gz
+  g3:
+    guppy_3/barcode05_Klebsiella_oxytoca_MSB1_2C.fastq.gz
+Salmonella_enterica:
+  g5:
+   guppy_5/barcode06_CHF10J1.guppy5.sup.fastq.gz
+  g3:
+    guppy_3/barcode06_CHF10J.fastq.gz
+Klebsiella_variicola:
+  g5:
+   guppy_5/barcode07_Klebsiella_variicola_INF345.fastq.gz
+  g3:
+    guppy_3/barcode07_Klebsiella_variicola_INF345.fastq.gz
+Serratia_marcescens:
+  g5:
+   guppy_5/barcode08_Serratia_marcescens_17-147-1671.fastq.gz
+  g3:
+    guppy_3/barcode08_Serratia_marcescens_17-147-1671.fastq.gz
