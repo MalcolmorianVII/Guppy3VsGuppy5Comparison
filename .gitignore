@@ -1,0 +1,28 @@
+# Ignore napa results
+napa/results
+
+#Ignore input_data directory
+input_data/
+
+#Ignore nosc results
+nosc_clair/results
+
+#Ignore reference_genomes
+reference_genomes/
+
+#Ignore snakemake logs
+*snakemake.log
+
+#Ignore snakemake metadata
+**/.snakemake
+#Ignore napa snakemake metadata
+napa/scripts/.snakemake/
+
+#Ignore nosc
+nosc_clair/scripts/.refseeking.sh.swp
+
+#Ignore hidden nosc files
+nosc_clair/scripts/.snakemake/
+
+#Ignore all nosc
+nosc/
