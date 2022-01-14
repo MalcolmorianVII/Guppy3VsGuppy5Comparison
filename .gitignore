@@ -1,5 +1,5 @@
 # Ignore napa results
-napa/results
+results/
 
 #Ignore input_data directory
 input_data/
