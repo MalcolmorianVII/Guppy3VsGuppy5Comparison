@@ -1,10 +1,14 @@
 # Ignore napa results
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 results/
 =======
 napa/results
 >>>>>>> e19115572e68bc19a8771c1ec31f941d333b9809
+=======
+napa/results
+>>>>>>> 1e211005d66c78d1c35528f70ddc285e250a4e6f
 =======
 napa/results
 >>>>>>> 1e211005d66c78d1c35528f70ddc285e250a4e6f
@@ -34,9 +38,12 @@ nosc_clair/scripts/.snakemake/
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 #Ignore all nosc
 nosc/
 =======
+=======
+>>>>>>> 1e211005d66c78d1c35528f70ddc285e250a4e6f
 =======
 >>>>>>> 1e211005d66c78d1c35528f70ddc285e250a4e6f
 # Created by https://www.toptal.com/developers/gitignore/api/pycharm,python
@@ -290,6 +297,9 @@ cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/pycharm,python
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> e19115572e68bc19a8771c1ec31f941d333b9809
+=======
+>>>>>>> 1e211005d66c78d1c35528f70ddc285e250a4e6f
 =======
 >>>>>>> 1e211005d66c78d1c35528f70ddc285e250a4e6f
