@@ -1,0 +1,31 @@
+name: flye
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+  - r
+dependencies:
+  - _libgcc_mutex=0.1=conda_forge
+  - _openmp_mutex=4.5=1_llvm
+  - ca-certificates=2021.7.5=h06a4308_1
+  - certifi=2021.5.30=py39h06a4308_0
+  - flye=2.9=py39h39abbe0_0
+  - ld_impl_linux-64=2.35.1=h7274673_9
+  - libffi=3.3=he6710b0_2
+  - libgcc-ng=11.1.0=hc902ee8_8
+  - libstdcxx-ng=11.1.0=h56837e0_8
+  - llvm-openmp=12.0.1=h4bd325d_1
+  - ncurses=6.2=he6710b0_1
+  - openssl=1.1.1k=h27cfd23_0
+  - pip=21.2.4=py37h06a4308_0
+  - python=3.9.6=h12debd9_1
+  - python_abi=3.9=2_cp39
+  - readline=8.1=h27cfd23_0
+  - setuptools=52.0.0=py39h06a4308_0
+  - sqlite=3.36.0=hc218d9a_0
+  - tk=8.6.10=hbc83047_0
+  - tzdata=2021a=h5d7bf9c_0
+  - wheel=0.37.0=pyhd3eb1b0_0
+  - xz=5.2.5=h7b6447c_0
+  - zlib=1.2.11=h7b6447c_3
+prefix: /home/belson/anaconda3/envs/flye
