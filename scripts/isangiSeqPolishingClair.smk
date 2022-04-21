@@ -78,7 +78,11 @@ rule polish_raconX2:
 	output:
 		directory("{results}/{sample}polishRaconX2")
 	shell:
-		"polca.sh -a {input} -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}" && mkdir {output} && mv {wildcards.sample}RaconX2.fasta* {output}"
+		"""
+		polca.sh -a {input} -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}"
+		mkdir {output} && mv {wildcards.sample}RaconX2.fasta* {output}
+		"""
+
 rule raconX3:
     input:
         rules.raconX2.output.x2
@@ -86,7 +90,10 @@ rule raconX3:
         x3 = temp("{results}/{sample}RaconX3.fasta"),
 		pf3 = temp("{results}/{sample}.racon3.paf")
     shell:
-        "minimap2 -x map-ont {input} {rules.flye.input} > {output.pf3} && racon -t 4 {rules.flye.input} {output.pf3} {input} > {output.x3}"
+		"""
+        minimap2 -x map-ont {input} {rules.flye.input} > {output.pf3}
+		racon -t 4 {rules.flye.input} {output.pf3} {input} > {output.x3}
+		"""
 
 rule polish_raconX3:
 	input:
