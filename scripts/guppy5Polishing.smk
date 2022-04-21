@@ -21,7 +21,7 @@ rule flye:
 	conda:
 		config["flye"]
 	shell:
-		"flye --nano-hq {output} -g 5m -o {input.nano} -t 8 --plasmids"
+		"flye --nano-hq {output} -g 5m -o {input.nano} -t 8"
 
 rule polishFlye:
 	input:
