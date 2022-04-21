@@ -52,3 +52,6 @@ model:
 
 flye:
   /home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/scripts/envs/flye.yml
+
+medaka:
+  /home/ubuntu/data/belson/isangi_nanopore/scripts/envs/medaka.yml
