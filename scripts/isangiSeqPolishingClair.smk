@@ -159,29 +159,34 @@ rule minimap:
         "minimap2 -ax map-ont {input}/consensus.fasta {rules.flye.input} > {output}"
 
 rule sortBam:
-        input:
-                rules.minimap.output
-        output:
-                temp("{results}/{sample}.sorted.bam")
-        shell:
-                "samtools sort -@ 8 -o {output} {input} && samtools index {output}"
+    input:
+        rules.minimap.output
+    output:
+        temp("{results}/{sample}.sorted.bam")
+    shell:
+        "samtools sort -@ 8 -o {output} {input} && samtools index {output}"
+
 rule clair:
-        input:
-                rules.sortBam.output
-        output:
-                "{results}/{sample}_flye.clair.fasta"
-        shell:
-                "./clair.sh {wildcards.sample} {wildcards.results}"
+    input:
+        rules.sortBam.output
+    output:
+        "{results}/{sample}_flye.clair.fasta"
+    shell:
+        "./clair.sh {wildcards.sample} {wildcards.results}"
+
 rule clairPolca:
-        input:
-                rules.clair.output
-        output:
-                directory("{results}/{sample}ClairPolca")
-        shell:
-                "polca.sh -a {input} -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}" && mkdir {output} && mv {wildcards.sample}_flye.clair.fasta* {output}"
+    input:
+        rules.clair.output
+    output:
+        directory("{results}/{sample}ClairPolca")
+    shell:
+        """
+		polca.sh -a {input} -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}"
+		mkdir {output} && mv {wildcards.sample}_flye.clair.fasta* {output}
+		"""
+
 rule spades:
 	input:
-		#rules.polishFlye.input
 		R1 = rules.polishFlye.input.r1,
         R2 = rules.polishFlye.input.r2
 	output:
@@ -195,4 +200,7 @@ rule polish_spades:
 	output:
 		directory("{results}/polishIllumina")
 	shell:
-		"polca.sh -a {input}/contigs.fasta -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}" && mkdir {output} && mv contigs.fasta* {output}"
+		"""
+		polca.sh -a {input}/contigs.fasta -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}"
+		mkdir {output} && mv contigs.fasta* {output}
+		"""
