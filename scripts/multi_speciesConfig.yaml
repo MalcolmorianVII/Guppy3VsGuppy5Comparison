@@ -47,3 +47,8 @@ results:
 
 model:
   r941_min_sup_g507
+
+# Environments
+
+flye:
+  /home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/scripts/envs/flye.yml
