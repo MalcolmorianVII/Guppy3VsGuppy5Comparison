@@ -14,12 +14,12 @@ rule all:
 		expand("{results}/polishIllumina",results = results)
 		
 rule flye:
-        input:
-                expand("{sampleDir}/{sample}.fastq.gz",sampleDir = sampleDir,sample = config["nanopore"])
-        output:
-                temp(directory("{results}/{sample}flye"))
-        shell:
-                "flye --nano-raw {input} -g 5m -o {output} -t 8 --plasmids && samtools faidx {output}/assembly.fasta"
+    input:
+        expand("{sampleDir}/{sample}.fastq.gz",sampleDir = sampleDir,sample = config["nanopore"])
+    output:
+        directory("{results}/{sample}flye")
+    shell:
+        "flye --nano-raw {input} -g 5m -o {output} -t 8 --plasmids && samtools faidx {output}/assembly.fasta"
 
 rule polishFlye:
 	input:
