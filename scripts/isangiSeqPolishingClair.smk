@@ -101,15 +101,22 @@ rule polish_raconX3:
 	output:
 		directory("{results}/{sample}polishRaconX3")
 	shell:
-		"polca.sh -a {input} -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}" && mkdir {output} && mv {wildcards.sample}RaconX3.fasta* {output}"
+		"""
+		polca.sh -a {input} -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}"
+		mkdir {output} && mv {wildcards.sample}RaconX3.fasta* {output}
+		"""
+
 rule raconX4:
-        input:
-                rules.raconX3.output.x3
-        output:
-                x4 = temp("{results}/{sample}RaconX4.fasta"),
+    input:
+        rules.raconX3.output.x3
+    output:
+        x4 = temp("{results}/{sample}RaconX4.fasta"),
 		pf4 = temp("{results}/{sample}.racon4.paf")
-        shell:
-                "minimap2 -x map-ont {input} {rules.flye.input} > {output.pf4} && racon -t 4 {rules.flye.input} {output.pf4} {input} > {output.x4}"
+    shell:
+		"""
+        minimap2 -x map-ont {input} {rules.flye.input} > {output.pf4}
+		racon -t 4 {rules.flye.input} {output.pf4} {input} > {output.x4}
+		"""
 
 rule polish_raconX4:
 	input:
@@ -117,7 +124,11 @@ rule polish_raconX4:
 	output:
 		directory("{results}/{sample}polishRaconX4")
 	shell:
-		"polca.sh -a {input} -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}" && mkdir {output} && mv {wildcards.sample}RaconX4.fasta* {output}"
+		"""
+		polca.sh -a {input} -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}"
+		mkdir {output} && mv {wildcards.sample}RaconX4.fasta* {output}
+		"""
+
 rule medaka:
 	input:
 		rules.raconX4.output.x4
@@ -129,19 +140,23 @@ rule medaka:
 		"medaka_consensus -i {rules.flye.input} -d {input} -t 8  -m r941_min_high_g303 -o {output}"
 
 rule polish_medaka:
-        input:
-                rules.medaka.output
-        output:
-                directory("{results}/{sample}polishMedaka")
-        shell:
-                "polca.sh -a {input}/consensus.fasta -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}" && mkdir {output} && mv consensus.fasta* {output}"
+    input:
+        rules.medaka.output
+    output:
+        directory("{results}/{sample}polishMedaka")
+    shell:
+        """
+		polca.sh -a {input}/consensus.fasta -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}"
+		mkdir {output} && mv consensus.fasta* {output}
+		"""
+
 rule minimap:
-        input:
-                rules.medaka.output
-        output:
-                temp("{results}/{sample}.sam")
-        shell:
-                "minimap2 -ax map-ont {input}/consensus.fasta {rules.flye.input} > {output}"
+    input:
+        rules.medaka.output
+    output:
+        temp("{results}/{sample}.sam")
+    shell:
+        "minimap2 -ax map-ont {input}/consensus.fasta {rules.flye.input} > {output}"
 
 rule sortBam:
         input:
