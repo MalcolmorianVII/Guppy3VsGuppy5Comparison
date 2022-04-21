@@ -61,13 +61,16 @@ rule polish_raconX1:
 		"""
 
 rule raconX2:
-        input:
-                rules.raconX1.output.x1
-        output:
-                x2 = temp("{results}/{sample}RaconX2.fasta"),
+    input:
+        rules.raconX1.output.x1
+    output:
+        x2 = temp("{results}/{sample}RaconX2.fasta"),
 		pf2 = temp("{results}/{sample}.racon2.paf")
-        shell:
-                "minimap2 -x map-ont {input} {rules.flye.input} > {output.pf2} && racon -t 4 {rules.flye.input} {output.pf2} {input} > {output.x2}"
+    shell:
+		"""
+        minimap2 -x map-ont {input} {rules.flye.input} > {output.pf2}
+		racon -t 4 {rules.flye.input} {output.pf2} {input} > {output.x2}
+		"""
 
 rule polish_raconX2:
 	input:
@@ -77,13 +80,13 @@ rule polish_raconX2:
 	shell:
 		"polca.sh -a {input} -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}" && mkdir {output} && mv {wildcards.sample}RaconX2.fasta* {output}"
 rule raconX3:
-        input:
-                rules.raconX2.output.x2
-        output:
-                x3 = temp("{results}/{sample}RaconX3.fasta"),
+    input:
+        rules.raconX2.output.x2
+    output:
+        x3 = temp("{results}/{sample}RaconX3.fasta"),
 		pf3 = temp("{results}/{sample}.racon3.paf")
-        shell:
-                "minimap2 -x map-ont {input} {rules.flye.input} > {output.pf3} && racon -t 4 {rules.flye.input} {output.pf3} {input} > {output.x3}"
+    shell:
+        "minimap2 -x map-ont {input} {rules.flye.input} > {output.pf3} && racon -t 4 {rules.flye.input} {output.pf3} {input} > {output.x3}"
 
 rule polish_raconX3:
 	input:
