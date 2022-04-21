@@ -4,10 +4,7 @@ samples = config['samples']
 model = config['model']
 def reads(wildcards):
 	return expand('{root_dir}/barcode0{{sample}}.fastq.gz',root_dir=root_dir,sample=samples)
-#def lambda wildcards : config[wildcards.sample]["R1"](wildcards):
-#	return expand('{read1}',read1=config[wildcards.sample]["R1"])
-#def  lambda wildcards : config[wildcards.sample]["R2"](wildcards):
-#	return expand('{read2}',read2=config[wildcards.sample]["R2"])
+
 rule all:
 	input:
 		expand('{results}/{sample}/{sample}Flye',sample = samples,results = results),
