@@ -5,7 +5,7 @@ model = config["model"]
 
 rule all:
 	input:
-		expand("{results}/{sample}/{sample}Flye",sample = samples,results = results),
+		expand("{results}/{sample}/{sample}flye",sample = samples,results = results),
 		expand("{results}/{sample}/{sample}polishFlye",sample = samples,results = results),
 		expand("{results}/{sample}/{sample}polishracon1",sample = samples,results = results),
 		expand("{results}/{sample}/{sample}medaka",sample = samples,results = results),
@@ -17,7 +17,7 @@ rule flye:
 	input:
 		expand("{root_dir}/barcode0{{sample}}.fastq.gz",root_dir=root_dir,sample=samples)
 	output:
-		directory("{results}/{sample}/{sample}Flye")
+		directory("{results}/{sample}/{sample}flye")
 	conda:
 		config["flye"]
 	shell:
