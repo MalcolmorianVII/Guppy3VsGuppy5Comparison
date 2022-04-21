@@ -1,7 +1,6 @@
-configfile:"/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/scripts/multi_speciesConfig.yaml"
-samples = ['1_Acinetobacter_baumannii_J9','2_Citrobacter_koseri_MINF_9D','3_Enterobacter_kobei_MSB1_1B','4_Haemophilus_unknown_M1C132_1','5_Klebsiella_oxytoca_MSB1_2C','6_CHF10J1.guppy5.sup','7_Klebsiella_variicola_INF345','8_Serratia_marcescens_17-147-1671']
-results = ['/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/results/2021.08.23/guppy5']
-root_dir = config['torun']
+configfile:"/home/ubuntu/data/belson/projects/projects_2021/napa/scripts/multi_speciesConfig.yaml"
+root_dir = config['to_run']
+samples = config['samples']
 model = config['model']
 def reads(wildcards):
 	return expand('{root_dir}/barcode0{{sample}}.fastq.gz',root_dir=root_dir,sample=samples)
@@ -72,9 +71,9 @@ rule medaka:
 
 rule polish_medaka:
         input:
-                gen = rules.medaka.output,
-		r1 = lambda wildcards : config[wildcards.sample]["R1"],
-                r2 =  lambda wildcards : config[wildcards.sample]["R2"]
+            gen = rules.medaka.output,
+			r1 = lambda wildcards : config[wildcards.sample]["R1"],
+            r2 =  lambda wildcards : config[wildcards.sample]["R2"]
         output:
                 directory('{results}/{sample}/{sample}polishMedaka')
         shell:
@@ -83,7 +82,7 @@ rule polish_medaka:
 rule spades:
 	input:
 		R1 = lambda wildcards : config[wildcards.sample]["R1"],
-		R2 =  lambda wildcards : config[wildcards.sample]["R2"]
+		R2 = lambda wildcards : config[wildcards.sample]["R2"]
 	output:
 		directory('{results}/{sample}/{sample}Illumina')
 	shell:
@@ -93,7 +92,7 @@ rule polish_spades:
 	input:
 		gen = rules.spades.output,
 		r1 = lambda wildcards : config[wildcards.sample]["R1"],
-                r2 =  lambda wildcards : config[wildcards.sample]["R2"]
+        r2 =  lambda wildcards : config[wildcards.sample]["R2"]
 	output:
 		directory('{results}/{sample}/{sample}polishIllumina')
 	shell:
