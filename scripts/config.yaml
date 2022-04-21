@@ -1,0 +1,15 @@
+-  CHF10J:
+     nanopore: /home/ubuntu/data/belson/isangi_nanopore/qc/results/2021.02.06/CHF10J
+     illumina: 
+       - /home/ubuntu/data/belson/isangi_nanopore/qc/results/2021.02.06/17762-33892_1_71_bbduk_1.fastq.gz
+       - /home/ubuntu/data/belson/isangi_nanopore/qc/results/2021.02.06/17762-33892_1_71_bbduk_2.fastq.gz
+-  CAAWCD:
+     nanopore: /home/ubuntu/data/phil/salmonella_samples/20210205_1324_MC-110370_0_FAO37531_76db0abb/CAAWCD
+     illumina: 
+       - /home/ubuntu/data/phil/salmonella_samples/illumina/17761-33892_1_65_bbduk_1.fastq.gz
+       - /home/ubuntu/data/phil/salmonella_samples/illumina/17761-33892_1_65_bbduk_2.fastq.gz
+-  CHF10J2:
+     nanopore: /home/ubuntu/data/phil/salmonella_samples/20210205_1324_MC-110370_0_FAO37531_76db0abb/CHF10J2
+     illumina: 
+       - /home/ubuntu/data/phil/salmonella_samples/illumina/17764-33892_1_77_bbduk_1.fastq.gz
+       - /home/ubuntu/data/phil/salmonella_samples/illumina/17764-33892_1_77_bbduk_2.fastq.gz
