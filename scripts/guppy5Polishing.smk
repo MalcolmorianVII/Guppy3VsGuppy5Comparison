@@ -2,8 +2,6 @@ configfile:"/home/ubuntu/data/belson/projects/projects_2021/napa/scripts/multi_s
 root_dir = config['to_run']
 samples = config['samples']
 model = config['model']
-def reads(wildcards):
-	return expand('{root_dir}/barcode0{{sample}}.fastq.gz',root_dir=root_dir,sample=samples)
 
 rule all:
 	input:
@@ -14,9 +12,10 @@ rule all:
 		expand('{results}/{sample}/{sample}polishMedaka',sample = samples,results = results),
 		expand('{results}/{sample}/{sample}Illumina',results = results,sample=samples),
 		expand('{results}/{sample}/{sample}polishIllumina',results = results,sample=samples)
+
 rule flye:
 	input:
-		nano=reads
+		expand('{root_dir}/barcode0{{sample}}.fastq.gz',root_dir=root_dir,sample=samples)
 	output:
 		directory('{results}/{sample}/{sample}Flye')
 #	conda:
