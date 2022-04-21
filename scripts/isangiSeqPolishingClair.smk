@@ -4,10 +4,10 @@ results = ["/home/ubuntu/data/belson/isangi_nanopore/qc/results/polishing/2021.0
 rule all:
 	input:
 		expand("{results}/{sample}polishFlye",sample = config["nanopore"],results = results),
-		expand("{results}/{sample}polishRaconX1",sample = config["nanopore"],results = results),
+		expand("{results}/{sample}polishracon1",sample = config["nanopore"],results = results),
 		expand("{results}/{sample}polishRaconX2",sample = config["nanopore"],results = results),
-		expand("{results}/{sample}polishRaconX3",sample = config["nanopore"],results = results),
-		expand("{results}/{sample}polishRaconX4",sample = config["nanopore"],results = results),
+		expand("{results}/{sample}polishracon3",sample = config["nanopore"],results = results),
+		expand("{results}/{sample}polishracon4",sample = config["nanopore"],results = results),
 		expand("{results}/{sample}polishMedaka",sample = config["nanopore"],results = results),
         expand("{results}/{sample}ClairPolca",results=results,sample=config["nanopore"]),
         expand("{results}/{sample}_flye.clair.fasta",results=results,sample=config["nanopore"]),
@@ -37,11 +37,11 @@ rule polishFlye:
 		mkdir {output} && mv assembly.fasta* {output}
 		"""
 
-rule raconX1:
+rule racon1:
 	input:
 		rules.flye.output
 	output:
-		x1 = temp("{results}/{sample}RaconX1.fasta"),
+		x1 = temp("{results}/{sample}racon1.fasta"),
 		pf1 = temp("{results}/{sample}.racon.paf")
 	shell:
 		"""
@@ -49,22 +49,22 @@ rule raconX1:
 		racon -t 4 {rules.flye.input} {output.pf1} {input}/assembly.fasta > {output.x1}
 		"""
 
-rule polish_raconX1:
+rule polish_racon1:
 	input:
-		rules.raconX1.output.x1
+		rules.racon1.output.x1
 	output:
-		directory("{results}/{sample}polishRaconX1")
+		directory("{results}/{sample}polishracon1")
 	shell:
 		"""
 		polca.sh -a {input} -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}"
-		mkdir {output} && mv {wildcards.sample}RaconX1.fasta* {output}
+		mkdir {output} && mv {wildcards.sample}racon1.fasta* {output}
 		"""
 
 rule raconX2:
     input:
-        rules.raconX1.output.x1
+        rules.racon1.output.x1
     output:
-        x2 = temp("{results}/{sample}RaconX2.fasta"),
+        x2 = temp("{results}/{sample}racon2.fasta"),
 		pf2 = temp("{results}/{sample}.racon2.paf")
     shell:
 		"""
@@ -72,22 +72,22 @@ rule raconX2:
 		racon -t 4 {rules.flye.input} {output.pf2} {input} > {output.x2}
 		"""
 
-rule polish_raconX2:
+rule polish_racon2:
 	input:
-		rules.raconX2.output.x2
+		rules.racon2.output.x2
 	output:
-		directory("{results}/{sample}polishRaconX2")
+		directory("{results}/{sample}polishracon2")
 	shell:
 		"""
 		polca.sh -a {input} -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}"
-		mkdir {output} && mv {wildcards.sample}RaconX2.fasta* {output}
+		mkdir {output} && mv {wildcards.sample}racon2.fasta* {output}
 		"""
 
-rule raconX3:
+rule racon3:
     input:
-        rules.raconX2.output.x2
+        rules.racon2.output.x2
     output:
-        x3 = temp("{results}/{sample}RaconX3.fasta"),
+        x3 = temp("{results}/{sample}racon3.fasta"),
 		pf3 = temp("{results}/{sample}.racon3.paf")
     shell:
 		"""
@@ -95,22 +95,22 @@ rule raconX3:
 		racon -t 4 {rules.flye.input} {output.pf3} {input} > {output.x3}
 		"""
 
-rule polish_raconX3:
+rule polish_racon3:
 	input:
-		rules.raconX3.output.x3
+		rules.racon3.output.x3
 	output:
-		directory("{results}/{sample}polishRaconX3")
+		directory("{results}/{sample}polishracon3")
 	shell:
 		"""
 		polca.sh -a {input} -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}"
-		mkdir {output} && mv {wildcards.sample}RaconX3.fasta* {output}
+		mkdir {output} && mv {wildcards.sample}racon3.fasta* {output}
 		"""
 
-rule raconX4:
+rule racon4:
     input:
-        rules.raconX3.output.x3
+        rules.racon3.output.x3
     output:
-        x4 = temp("{results}/{sample}RaconX4.fasta"),
+        x4 = temp("{results}/{sample}racon4.fasta"),
 		pf4 = temp("{results}/{sample}.racon4.paf")
     shell:
 		"""
@@ -118,20 +118,20 @@ rule raconX4:
 		racon -t 4 {rules.flye.input} {output.pf4} {input} > {output.x4}
 		"""
 
-rule polish_raconX4:
+rule polish_racon4:
 	input:
-		rules.raconX4.output.x4
+		rules.racon4.output.x4
 	output:
-		directory("{results}/{sample}polishRaconX4")
+		directory("{results}/{sample}polishracon4")
 	shell:
 		"""
 		polca.sh -a {input} -r "{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}"
-		mkdir {output} && mv {wildcards.sample}RaconX4.fasta* {output}
+		mkdir {output} && mv {wildcards.sample}racon4.fasta* {output}
 		"""
 
 rule medaka:
 	input:
-		rules.raconX4.output.x4
+		rules.racon4.output.x4
 	output:
 		directory("{results}/{sample}medaka")
 	conda:
