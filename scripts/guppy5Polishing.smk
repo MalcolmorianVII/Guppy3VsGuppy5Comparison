@@ -7,7 +7,7 @@ rule all:
 	input:
 		expand('{results}/{sample}/{sample}Flye',sample = samples,results = results),
 		expand('{results}/{sample}/{sample}polishFlye',sample = samples,results = results),
-		expand('{results}/{sample}/{sample}polishRaconX1',sample = samples,results = results),
+		expand('{results}/{sample}/{sample}polishracon1',sample = samples,results = results),
 		expand('{results}/{sample}/{sample}medaka',sample = samples,results = results),
 		expand('{results}/{sample}/{sample}polishMedaka',sample = samples,results = results),
 		expand('{results}/{sample}/{sample}Illumina',results = results,sample=samples),
@@ -33,30 +33,30 @@ rule polishFlye:
 	shell:
 		"polca.sh -a {input.gen}/assembly.fasta -r '{input.r1} {input.r2}' && mkdir {output} && mv assembly.fasta* {output}"
 
-rule raconX1:
+rule racon1:
 	input:
 		gen = rules.flye.output,
 		nano = reads
 	output:
-		x1 = temp('{results}/{sample}/{sample}RaconX1.fasta'),
+		x1 = temp('{results}/{sample}/{sample}racon1.fasta'),
 		pf1 = temp('{results}/{sample}/{sample}.racon.paf')
 	shell:
 		'minimap2 -x map-ont {input.gen}/assembly.fasta {input.nano} > {output.pf1} && racon -t 4 {input.nano} {output.pf1} {input.gen}/assembly.fasta > {output.x1}'
 
-rule polish_raconX1:
+rule polish_racon1:
 	input:
-		gen = rules.raconX1.output.x1,
+		gen = rules.racon1.output.x1,
 		r1 = lambda wildcards : config[wildcards.sample]["R1"],
 		r2 =  lambda wildcards : config[wildcards.sample]["R2"]
 	output:
-		directory('{results}/{sample}/{sample}polishRaconX1')
+		directory('{results}/{sample}/{sample}polishracon1')
 	shell:
-		"polca.sh -a {input.gen} -r '{input.r1} {input.r2}' && mkdir {output} && mv {wildcards.sample}RaconX1.fasta* {output}"
+		"polca.sh -a {input.gen} -r '{input.r1} {input.r2}' && mkdir {output} && mv {wildcards.sample}racon1.fasta* {output}"
 
 
 rule medaka:
 	input:
-		gen = rules.raconX1.output.x1,
+		gen = rules.racon1.output.x1,
 		nano = reads
 	output:
 		directory('{results}/{sample}/{sample}medaka')
