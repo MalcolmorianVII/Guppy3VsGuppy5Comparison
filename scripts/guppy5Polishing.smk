@@ -18,8 +18,8 @@ rule flye:
 		expand('{root_dir}/barcode0{{sample}}.fastq.gz',root_dir=root_dir,sample=samples)
 	output:
 		directory('{results}/{sample}/{sample}Flye')
-#	conda:
-#		'/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/scripts/envs/flye.yml'
+	conda:
+		config['flye']
 	shell:
 		'bash flye.sh {output} {input.nano}'
 
@@ -31,21 +31,24 @@ rule polishFlye:
 	output:
 		directory('{results}/{sample}/{sample}polishFlye')
 	shell:
-		"polca.sh -a {input.gen}/assembly.fasta -r '{input.r1} {input.r2}' && mkdir {output} && mv assembly.fasta* {output}"
+		"""
+		polca.sh -a {input.gen}/assembly.fasta -r '{input.r1} {input.r2}
+		mkdir {output} && mv assembly.fasta* {output}
+		"""
 
 rule racon1:
 	input:
 		gen = rules.flye.output,
 		nano = reads
 	output:
-		x1 = temp('{results}/{sample}/{sample}racon1.fasta'),
-		pf1 = temp('{results}/{sample}/{sample}.racon.paf')
+		rac1 = temp('{results}/{sample}/{sample}racon1.fasta'),
+		paf1 = temp('{results}/{sample}/{sample}.racon.paf')
 	shell:
-		'minimap2 -x map-ont {input.gen}/assembly.fasta {input.nano} > {output.pf1} && racon -t 4 {input.nano} {output.pf1} {input.gen}/assembly.fasta > {output.x1}'
+		'minimap2 -x map-ont {input.gen}/assembly.fasta {input.nano} > {output.paf1} && racon -t 4 {input.nano} {output.paf1} {input.gen}/assembly.fasta > {output.rac1}'
 
 rule polish_racon1:
 	input:
-		gen = rules.racon1.output.x1,
+		gen = rules.racon1.output.rac1,
 		r1 = lambda wildcards : config[wildcards.sample]["R1"],
 		r2 =  lambda wildcards : config[wildcards.sample]["R2"]
 	output:
@@ -56,12 +59,12 @@ rule polish_racon1:
 
 rule medaka:
 	input:
-		gen = rules.racon1.output.x1,
+		gen = rules.racon1.output.rac1,
 		nano = reads
 	output:
 		directory('{results}/{sample}/{sample}medaka')
 	conda:
-		'/home/ubuntu/data/belson/isangi_nanopore/scripts/envs/medaka.yml'
+		config['medaka']
 	shell:
 		'medaka_consensus -i {input.nano} -d {input.gen} -t 8  -m {model} -o {output}'
 
