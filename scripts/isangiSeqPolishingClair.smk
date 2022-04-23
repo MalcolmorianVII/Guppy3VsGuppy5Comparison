@@ -148,7 +148,7 @@ rule spades:
 		R1 = rules.polishFlye.input.r1,
         R2 = rules.polishFlye.input.r2
 	output:
-		temp(directory('{results}/illuminaResults'))
+		directory('{results}/illuminaResults')
 	shell:
 		'spades.py -1 {input.R1} -2 {input.R2} -o {output}'
 
