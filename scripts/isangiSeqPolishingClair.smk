@@ -17,7 +17,7 @@ rule flye:
     input:
         expand('{sampleDir}/{sample}.fastq.gz',sampleDir = sampleDir,sample = config["nanopore"])
     output:
-        temp(directory('{results}/{sample}flye'))
+        directory('{results}/{sample}flye')
     shell:
         'flye --nano-raw {input} -g 5m -o {output} -t 8 --plasmids && samtools faidx {output}/assembly.fasta'
 
