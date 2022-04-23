@@ -1,7 +1,7 @@
 #! /usr/bin/bash
 
-g3='/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/results/2021.08.02/guppy3'
-g5='/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/results/2021.08.02/guppy5'
+g3=/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/results/2021.08.02/guppy3
+g5=/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/results/2021.08.02/guppy5
 
 vcfIntersects=/home/ubuntu/data/belson/Guppy5_guppy3_comparison/napa/results/2021.09.03
 mkdir -p $vcfIntersects
