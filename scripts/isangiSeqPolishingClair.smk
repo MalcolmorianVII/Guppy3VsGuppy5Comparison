@@ -9,17 +9,17 @@ rule all:
 		expand('{results}/{sample}polishRaconX3',sample = config["nanopore"],results = results),
 		expand('{results}/{sample}polishRaconX4',sample = config["nanopore"],results = results),
 		expand('{results}/{sample}polishMedaka',sample = config["nanopore"],results = results),
-                expand('{results}/{sample}ClairPolca',results=results,sample=config["nanopore"]),
-                expand('{results}/{sample}_flye.clair.fasta',results=results,sample=config["nanopore"]),
+        expand('{results}/{sample}ClairPolca',results=results,sample=config["nanopore"]),
+        expand('{results}/{sample}_flye.clair.fasta',results=results,sample=config["nanopore"]),
 		expand('{results}/polishIllumina',results = results)
 		
 rule flye:
-        input:
-                expand('{sampleDir}/{sample}.fastq.gz',sampleDir = sampleDir,sample = config["nanopore"])
-        output:
-                temp(directory('{results}/{sample}flye'))
-        shell:
-                'flye --nano-raw {input} -g 5m -o {output} -t 8 --plasmids && samtools faidx {output}/assembly.fasta'
+    input:
+        expand('{sampleDir}/{sample}.fastq.gz',sampleDir = sampleDir,sample = config["nanopore"])
+    output:
+        temp(directory('{results}/{sample}flye'))
+    shell:
+        'flye --nano-raw {input} -g 5m -o {output} -t 8 --plasmids && samtools faidx {output}/assembly.fasta'
 
 rule polishFlye:
 	input:
@@ -49,13 +49,13 @@ rule polish_raconX1:
 		"polca.sh -a {input} -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}' && mkdir {output} && mv {wildcards.sample}RaconX1.fasta* {output}"
 
 rule raconX2:
-        input:
-                rules.raconX1.output.x1
-        output:
-                x2 = temp('{results}/{sample}RaconX2.fasta'),
+    input:
+        rules.raconX1.output.x1
+    output:
+        x2 = temp('{results}/{sample}RaconX2.fasta'),
 		pf2 = temp('{results}/{sample}.racon2.paf')
-        shell:
-                'minimap2 -x map-ont {input} {rules.flye.input} > {output.pf2} && racon -t 4 {rules.flye.input} {output.pf2} {input} > {output.x2}'
+    shell:
+        'minimap2 -x map-ont {input} {rules.flye.input} > {output.pf2} && racon -t 4 {rules.flye.input} {output.pf2} {input} > {output.x2}'
 
 rule polish_raconX2:
 	input:
@@ -65,13 +65,13 @@ rule polish_raconX2:
 	shell:
 		"polca.sh -a {input} -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}' && mkdir {output} && mv {wildcards.sample}RaconX2.fasta* {output}"
 rule raconX3:
-        input:
-                rules.raconX2.output.x2
-        output:
-                x3 = temp('{results}/{sample}RaconX3.fasta'),
+    input:
+        rules.raconX2.output.x2
+    output:
+        x3 = temp('{results}/{sample}RaconX3.fasta'),
 		pf3 = temp('{results}/{sample}.racon3.paf')
-        shell:
-                'minimap2 -x map-ont {input} {rules.flye.input} > {output.pf3} && racon -t 4 {rules.flye.input} {output.pf3} {input} > {output.x3}'
+    shell:
+        'minimap2 -x map-ont {input} {rules.flye.input} > {output.pf3} && racon -t 4 {rules.flye.input} {output.pf3} {input} > {output.x3}'
 
 rule polish_raconX3:
 	input:
@@ -81,13 +81,13 @@ rule polish_raconX3:
 	shell:
 		"polca.sh -a {input} -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}' && mkdir {output} && mv {wildcards.sample}RaconX3.fasta* {output}"
 rule raconX4:
-        input:
-                rules.raconX3.output.x3
-        output:
-                x4 = temp('{results}/{sample}RaconX4.fasta'),
+    input:
+        rules.raconX3.output.x3
+    output:
+        x4 = temp('{results}/{sample}RaconX4.fasta'),
 		pf4 = temp('{results}/{sample}.racon4.paf')
-        shell:
-                'minimap2 -x map-ont {input} {rules.flye.input} > {output.pf4} && racon -t 4 {rules.flye.input} {output.pf4} {input} > {output.x4}'
+    shell:
+        'minimap2 -x map-ont {input} {rules.flye.input} > {output.pf4} && racon -t 4 {rules.flye.input} {output.pf4} {input} > {output.x4}'
 
 rule polish_raconX4:
 	input:
@@ -107,46 +107,46 @@ rule medaka:
 		'medaka_consensus -i {rules.flye.input} -d {input} -t 8  -m r941_min_high_g303 -o {output}'
 
 rule polish_medaka:
-        input:
-                rules.medaka.output
-        output:
-                directory('{results}/{sample}polishMedaka')
-        shell:
-                "polca.sh -a {input}/consensus.fasta -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}' && mkdir {output} && mv consensus.fasta* {output}"
+    input:
+        rules.medaka.output
+    output:
+        directory('{results}/{sample}polishMedaka')
+    shell:
+        "polca.sh -a {input}/consensus.fasta -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}' && mkdir {output} && mv consensus.fasta* {output}"
 rule minimap:
-        input:
-                rules.medaka.output
-        output:
-                temp('{results}/{sample}.sam')
-        shell:
-                'minimap2 -ax map-ont {input}/consensus.fasta {rules.flye.input} > {output}'
+    input:
+        rules.medaka.output
+    output:
+        temp('{results}/{sample}.sam')
+    shell:
+        'minimap2 -ax map-ont {input}/consensus.fasta {rules.flye.input} > {output}'
 
 rule sortBam:
-        input:
-                rules.minimap.output
-        output:
-                temp('{results}/{sample}.sorted.bam')
-        shell:
-                'samtools sort -@ 8 -o {output} {input} && samtools index {output}'
+    input:
+        rules.minimap.output
+    output:
+        temp('{results}/{sample}.sorted.bam')
+    shell:
+        'samtools sort -@ 8 -o {output} {input} && samtools index {output}'
 rule clair:
-        input:
-                rules.sortBam.output
-        output:
-                '{results}/{sample}_flye.clair.fasta'
-        shell:
-                './clair.sh {wildcards.sample} {wildcards.results}'
+    input:
+        rules.sortBam.output
+    output:
+        '{results}/{sample}_flye.clair.fasta'
+    shell:
+        './clair.sh {wildcards.sample} {wildcards.results}'
 rule clairPolca:
-        input:
-                rules.clair.output
-        output:
-                directory('{results}/{sample}ClairPolca')
-        shell:
-                "polca.sh -a {input} -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}' && mkdir {output} && mv {wildcards.sample}_flye.clair.fasta* {output}"
+    input:
+        rules.clair.output
+    output:
+        directory('{results}/{sample}ClairPolca')
+    shell:
+        "polca.sh -a {input} -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}' && mkdir {output} && mv {wildcards.sample}_flye.clair.fasta* {output}"
 rule spades:
 	input:
 		#rules.polishFlye.input
 		R1 = rules.polishFlye.input.r1,
-                R2 = rules.polishFlye.input.r2
+        R2 = rules.polishFlye.input.r2
 	output:
 		temp(directory('{results}/illuminaResults'))
 	shell:
