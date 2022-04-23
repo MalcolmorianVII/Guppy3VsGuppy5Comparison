@@ -19,7 +19,10 @@ rule flye:
     output:
         directory('{results}/{sample}flye')
     shell:
-        'flye --nano-raw {input} -g 5m -o {output} -t 8 --plasmids && samtools faidx {output}/assembly.fasta'
+		"""
+		flye --nano-raw {input} -g 5m -o {output} -t 8 --plasmids
+		samtools faidx {output}/assembly.fasta
+		"""
 
 rule polishFlye:
 	input:
@@ -29,7 +32,10 @@ rule polishFlye:
 	output:
 		directory('{results}/{sample}polishFlye')
 	shell:
-		"polca.sh -a {input.gen}/assembly.fasta -r '{input.r1} {input.r2}' && mkdir {output} && mv assembly.fasta* {output}"
+		"""
+		polca.sh -a {input.gen}/assembly.fasta -r '{input.r1} {input.r2}'
+		mkdir {output} && mv assembly.fasta* {output}
+		"""
 
 rule raconX1:
 	input:
@@ -38,7 +44,10 @@ rule raconX1:
 		x1 = temp('{results}/{sample}RaconX1.fasta'),
 		pf1 = temp('{results}/{sample}.racon.paf')
 	shell:
-		'minimap2 -x map-ont {input}/assembly.fasta {rules.flye.input} > {output.pf1} && racon -t 4 {rules.flye.input} {output.pf1} {input}/assembly.fasta > {output.x1}'
+		"""
+		minimap2 -x map-ont {input}/assembly.fasta {rules.flye.input} > {output.pf1}
+		racon -t 4 {rules.flye.input} {output.pf1} {input}/assembly.fasta > {output.x1}
+		"""
 
 rule polish_raconX1:
 	input:
@@ -46,7 +55,10 @@ rule polish_raconX1:
 	output:
 		directory('{results}/{sample}polishRaconX1')
 	shell:
-		"polca.sh -a {input} -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}' && mkdir {output} && mv {wildcards.sample}RaconX1.fasta* {output}"
+		"""
+		polca.sh -a {input} -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}'
+		mkdir {output} && mv {wildcards.sample}RaconX1.fasta* {output}
+		"""
 
 rule raconX2:
     input:
@@ -55,7 +67,10 @@ rule raconX2:
         x2 = temp('{results}/{sample}RaconX2.fasta'),
 		pf2 = temp('{results}/{sample}.racon2.paf')
     shell:
-        'minimap2 -x map-ont {input} {rules.flye.input} > {output.pf2} && racon -t 4 {rules.flye.input} {output.pf2} {input} > {output.x2}'
+		"""
+		minimap2 -x map-ont {input} {rules.flye.input} > {output.pf2}
+		racon -t 4 {rules.flye.input} {output.pf2} {input} > {output.x2}
+		"""
 
 rule polish_raconX2:
 	input:
@@ -63,7 +78,11 @@ rule polish_raconX2:
 	output:
 		directory('{results}/{sample}polishRaconX2')
 	shell:
-		"polca.sh -a {input} -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}' && mkdir {output} && mv {wildcards.sample}RaconX2.fasta* {output}"
+		"""
+		polca.sh -a {input} -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}'
+		mkdir {output} && mv {wildcards.sample}RaconX2.fasta* {output}
+		"""
+
 rule raconX3:
     input:
         rules.raconX2.output.x2
@@ -71,7 +90,10 @@ rule raconX3:
         x3 = temp('{results}/{sample}RaconX3.fasta'),
 		pf3 = temp('{results}/{sample}.racon3.paf')
     shell:
-        'minimap2 -x map-ont {input} {rules.flye.input} > {output.pf3} && racon -t 4 {rules.flye.input} {output.pf3} {input} > {output.x3}'
+		"""
+        minimap2 -x map-ont {input} {rules.flye.input} > {output.pf3}
+		racon -t 4 {rules.flye.input} {output.pf3} {input} > {output.x3}
+		"""
 
 rule polish_raconX3:
 	input:
@@ -79,7 +101,11 @@ rule polish_raconX3:
 	output:
 		directory('{results}/{sample}polishRaconX3')
 	shell:
-		"polca.sh -a {input} -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}' && mkdir {output} && mv {wildcards.sample}RaconX3.fasta* {output}"
+		"""
+		polca.sh -a {input} -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}'
+		mkdir {output} && mv {wildcards.sample}RaconX3.fasta* {output}
+		"""
+
 rule raconX4:
     input:
         rules.raconX3.output.x3
@@ -87,7 +113,10 @@ rule raconX4:
         x4 = temp('{results}/{sample}RaconX4.fasta'),
 		pf4 = temp('{results}/{sample}.racon4.paf')
     shell:
-        'minimap2 -x map-ont {input} {rules.flye.input} > {output.pf4} && racon -t 4 {rules.flye.input} {output.pf4} {input} > {output.x4}'
+		"""
+		minimap2 -x map-ont {input} {rules.flye.input} > {output.pf4}
+		racon -t 4 {rules.flye.input} {output.pf4} {input} > {output.x4}
+		"""
 
 rule polish_raconX4:
 	input:
@@ -95,7 +124,11 @@ rule polish_raconX4:
 	output:
 		directory('{results}/{sample}polishRaconX4')
 	shell:
-		"polca.sh -a {input} -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}' && mkdir {output} && mv {wildcards.sample}RaconX4.fasta* {output}"
+		"""
+		polca.sh -a {input} -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}'
+		mkdir {output} && mv {wildcards.sample}RaconX4.fasta* {output}
+		"""
+
 rule medaka:
 	input:
 		rules.raconX4.output.x4
@@ -112,7 +145,11 @@ rule polish_medaka:
     output:
         directory('{results}/{sample}polishMedaka')
     shell:
-        "polca.sh -a {input}/consensus.fasta -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}' && mkdir {output} && mv consensus.fasta* {output}"
+		"""
+        polca.sh -a {input}/consensus.fasta -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}'
+		mkdir {output} && mv consensus.fasta* {output}
+		"""
+
 rule minimap:
     input:
         rules.medaka.output
@@ -141,7 +178,11 @@ rule clairPolca:
     output:
         directory('{results}/{sample}ClairPolca')
     shell:
-        "polca.sh -a {input} -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}' && mkdir {output} && mv {wildcards.sample}_flye.clair.fasta* {output}"
+		"""
+        polca.sh -a {input} -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}'
+		mkdir {output} && mv {wildcards.sample}_flye.clair.fasta* {output}
+		"""
+
 rule spades:
 	input:
 		#rules.polishFlye.input
@@ -158,4 +199,7 @@ rule polish_spades:
 	output:
 		directory('{results}/polishIllumina')
 	shell:
-		"polca.sh -a {input}/contigs.fasta -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}' && mkdir {output} && mv contigs.fasta* {output}"
+		"""
+		polca.sh -a {input}/contigs.fasta -r '{rules.polishFlye.input.r1} {rules.polishFlye.input.r2}'
+		mkdir {output} && mv contigs.fasta* {output}
+		"""
