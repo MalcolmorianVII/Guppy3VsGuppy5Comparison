@@ -1,0 +1,7 @@
+
+samples: [1_Acinetobacter_baumannii_J9,2_Citrobacter_koseri_MINF_9D,3_Enterobacter_kobei_MSB1_1B,4_Haemophilus_unknown_M1C132_1,5_Klebsiella_oxytoca_MSB1_2C,7_Klebsiella_variicola_INF345,8_Serratia_marcescens_17-147-1671]
+
+to_run: /home/ubuntu/data/belson/projects/projects_2021/napa/input_data/guppy_5
+results: 
+  /home/ubuntu/data/belson/test_seq_service/species
+
